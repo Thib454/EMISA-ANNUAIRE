@@ -12,9 +12,15 @@
         {% endblock %}
     </head>
     <body>
+    <header
     {% block menu %}
     {% include 'partials/menu.html.twig' %}
     {% endblock %}
+        <h1>{% block pagetitle %}H1 à définir{% endblock %}</h1>
+    </header>
         {% block body %}{% endblock %}
+        {% block footer %}
+        {% include 'partials/footer.html.twig' %}
+        {% endblock %}
     </body>
 </html>

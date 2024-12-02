@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste utilisateur{% endblock %}
+
+{% block pagetitle %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Mot de passe</th>
+                {# <th>Crée le</th>
+                <th>Modifié le</th> #}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                {# <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>
+                    <button><a href="{{ path('app_user_show', {'id': user.id}) }}">Afficher</a></button>
+                    <button><a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier</a></button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun résultat trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_new') }}">Créer un nouvel utilisateur</a>
+{% endblock %}

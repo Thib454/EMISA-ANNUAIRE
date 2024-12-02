@@ -18,16 +18,25 @@ class StudentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
+            ->add('firstName',TextType::class, [
+                'label' => 'Prénom',
+              ])
+
+            ->add('lastName',TextType::class, [
+                'label' => 'Nom',
+              ])
+
             ->add('birthDay', null, [
                 'widget' => 'single_text',
+                'label' => 'Date de naissance',
             ])
+
             ->add('promo', ChoiceType::class, [
                 'choices' => $this->getYearsRange(2024, 2050),
                 'placeholder' => 'Sélectionnez une année', 
                 'label' => 'Année de la promo'
             ])
+
             ->add('photo', TextType::class)
             ->add('photo', FileType::class, [
                 'label' => 'Photo de profil (JPG/PNG)',
@@ -44,11 +53,16 @@ class StudentType extends AbstractType
                 ]),
             ]
         ])
-            ->add('company')
+            ->add('company', TextType::class, [
+                'label' => 'Entreprise',
+              ])
+
             ->add('description')
+
             ->add('course', EntityType::class, [
                 'class' => Course::class,
                 'choice_label' => 'title',
+                'label' => 'Formation',
             ])
         ;
     }

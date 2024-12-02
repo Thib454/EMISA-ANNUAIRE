@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Message{% endblock %}
+{% block title %}Modification message{% endblock %}
+
+{% block pagetitle %}Modifier un message{% endblock %}
 
 {% block body %}
-    <h1>Edit Message</h1>
 
-    {{ include('message/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('message/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_message_index') }}">back to list</a>
+    <a href="{{ path('app_message_index') }}">Retour à la liste</a>
 
     {{ include('message/_delete_form.html.twig') }}
 {% endblock %}

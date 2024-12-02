@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Message index{% endblock %}
+{% block title %}Liste message{% endblock %}
+
+{% block pagetitle %}Liste des messages{% endblock %}
 
 {% block body %}
-    <h1>Message index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Object</th>
-                <th>Expeditor</th>
-                <th>Content</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
+                <th>Objet</th>
+                <th>Expéditeur</th>
+                <th>Contenu</th>
+                <th>Crée le</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,17 +26,17 @@
                 <td>{{ message.content }}</td>
                 <td>{{ message.createdAt ? message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_message_show', {'id': message.id}) }}">show</a>
-                    <a href="{{ path('app_message_edit', {'id': message.id}) }}">edit</a>
+                    <button><a href="{{ path('app_message_show', {'id': message.id}) }}">Voir le message</a></button>
+                    {# <button><a href="{{ path('app_message_edit', {'id': message.id}) }}">Modifier</a></button> #}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucun résultat trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_message_new') }}">Create new</a>
+    <a href="{{ path('app_message_new') }}">Créer un nouveau message</a>
 {% endblock %}

@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Course{% endblock %}
+{% block title %}Nouvelle formation{% endblock %}
+
+{% block pagetitle %}Ajouter une nouvelle formation{% endblock %}
 
 {% block body %}
-    <h1>Create new Course</h1>
 
     {{ include('course/_form.html.twig') }}
 
-    <a href="{{ path('app_course_index') }}">back to list</a>
+    <a href="{{ path('app_course_index') }}">Retour à la liste</a>
 {% endblock %}

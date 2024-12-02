@@ -1,24 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des étudiants{% endblock %}
+{% block title %}Liste des étudiants{% endblock %}
+
+{% block pagetitle %}Liste des étudiants{% endblock %}
 
 {% block body %}
-    <h1>Gestion des étudiants</h1>
+<div class="container mt-4">
 
-    <table class="table">
-        <thead>
+    <table class="datatable table table-striped table-hover">
+        <thead class="thead-dark">
             <tr>
                 <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>BirthDay</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Date de naissance</th>
                 <th>Promo</th>
                 <th>Photo</th>
-                <th>Company</th>
+                <th>Entreprise</th>
                 <th>Description</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Créé le</th>
+                <th>Mis à jour le</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -29,25 +31,32 @@
                 <td>{{ student.lastName }}</td>
                 <td>{{ student.birthDay ? student.birthDay|date('Y-m-d') : '' }}</td>
                 <td>{{ student.promo }}</td>
-                <td><img src="{{ asset('uploads/photos/' ~  student.photo) }}" style="width: 100px; height: auto;"</td>
+                <td>
+                    {% if student.photo %}
+                        <img src="{{ asset('uploads/photos/' ~ student.photo) }}" style="width: 100px; height: auto;">
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
                 <td>{{ student.company }}</td>
                 <td>{{ student.description }}</td>
                 <td>{{ student.createdAt ? student.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ student.updatedAt ? student.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <button><a href="{{ path('app_student_show', {'id': student.id}) }}">Afficher</a></button>
-                    <button><a href="{{ path('app_student_edit', {'id': student.id}) }}">Editer</a></button>
-                   <button><a href="{{ path('app_message_new', {'student': student.id}) }}">Contacter</a></button>
-                    <button><a href="{{ path('app_message_index', {'student': student.id})}}">Voir les message</a></button>
+                    <a class="btn btn-info btn-sm" href="{{ path('app_student_show', {'id': student.id}) }}">Afficher</a>
+                    <a class="btn btn-warning btn-sm" href="{{ path('app_student_edit', {'id': student.id}) }}">Éditer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11" class="text-center">Aucun résultat trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_student_new') }}">Create new</a>
+    <div class="text-end">
+        <a class="btn btn-success" href="{{ path('app_student_new') }}">Créer un nouvel étudiant</a>
+    </div>
+</div>
 {% endblock %}

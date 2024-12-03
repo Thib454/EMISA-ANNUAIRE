@@ -12,6 +12,7 @@
                 <th>Id</th>
                 <th>Objet</th>
                 <th>Expéditeur</th>
+                <th>Destinataire</th>
                 <th>Contenu</th>
                 <th>Crée le</th>
                 <th>Actions</th>
@@ -23,6 +24,7 @@
                 <td>{{ message.id }}</td>
                 <td>{{ message.object }}</td>
                 <td>{{ message.expeditor }}</td>
+                <td>{{ message.student.fullName }}</td>
                 <td>{{ message.content }}</td>
                 <td>{{ message.createdAt ? message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
@@ -38,5 +40,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_message_new') }}">Créer un nouveau message</a>
+    {# <a href="{{ path('app_message_new') }}">Créer un nouveau message</a> #}
 {% endblock %}

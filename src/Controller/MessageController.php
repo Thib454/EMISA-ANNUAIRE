@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Message;
+use App\Entity\Student;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,23 +25,39 @@ final class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_message_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{student}', name: 'app_message_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager, Student $student): Response
     {
         $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
+        $form = $this->createForm(MessageType::class, $message, [
+            'action' => $this->generateUrl('app_message_new', ['student' => $student->getId()]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $message->setStudent($student);
             $message->setcreatedAt(new \DateTimeImmutable());
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_message_index', [], Response::HTTP_SEE_OTHER);
+            //Methode pour envoyer un email depuis la page message
+            $email = (new Email())
+            ->from('no-reply@emisa.fr')
+            ->to($student->getEmail())
+            ->subject('Nouveau message de '.$message->getExpeditor())
+            ->html(
+                $this->renderView('emails/new_message.html.twig', [
+                    'student' => $student,
+                    'message' => $message,
+                ])
+            );
+
+            return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('message/new.html.twig', [
             'message' => $message,
+            'student' => $student,
             'form' => $form,
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Student;
+use App\Entity\Log;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin/student')]
 final class StudentController extends AbstractController
 {
+
     #[Route(name: 'app_student_index', methods: ['GET'])]
     public function index(StudentRepository $studentRepository): Response
     {
@@ -50,6 +52,13 @@ final class StudentController extends AbstractController
             $entityManager->persist($student);
             $entityManager->flush();
 
+            //Ici on crée un objet log dans le new du StudentController
+            $log = new Log($entityManager);
+            $log->log(
+                $this->getUser(),
+                'create',
+                'created student id '.$student->getId());
+
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -60,8 +69,15 @@ final class StudentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_student_show', methods: ['GET'])]
-    public function show(Student $student): Response
+    public function show(Student $student, EntityManagerInterface $entityManager): Response
     {
+        //Ici on crée un objet log dans le show du StudentController
+        $log = new Log($entityManager);
+        $log->log(
+            $this->getUser(),
+            'read',
+            'read student id '.$student->getId());
+
         return $this->render('student/show.html.twig', [
             'student' => $student,
         ]);
@@ -91,6 +107,13 @@ final class StudentController extends AbstractController
             
             $entityManager->flush();
 
+            //Ici on crée un objet log dans l'edit du StudentController
+            $log = new Log($entityManager);
+            $log->log(
+                $this->getUser(),
+                'update',
+                'updated student id '.$student->getId());
+
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -107,6 +130,13 @@ final class StudentController extends AbstractController
             $entityManager->remove($student);
             $entityManager->flush();
         }
+
+        //Ici on crée un objet log dans le delete du StudentController
+        $log = new Log($entityManager);
+        $log->log(
+            $this->getUser(),
+            'delete',
+            'deleted student id '.$student->getId());
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
     }

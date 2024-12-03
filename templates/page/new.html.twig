@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout Page{% endblock %}
+
+{% block pagetitle %}Ajouter une nouvelle page{% endblock %}
+
+{% block body %}
+
+    {{ include('page/_form.html.twig') }}
+
+    <a href="{{ path('app_page_index') }}">Retour à la liste</a>
+{% endblock %}

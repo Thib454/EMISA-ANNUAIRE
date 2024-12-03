@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Page{% endblock %}
+
+{% block pagetitle %}Liste des pages{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>IsActive</th>
+                <th>MetaTitle</th>
+                <th>MetaDescription</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.content }}</td>
+                <td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ page.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ page.metaTitle }}</td>
+                <td>{{ page.metaDescription }}</td>
+                <td>
+                    <a href="{{ path('app_page_show', {'id': page.id}) }}">Afficher</a>
+                    <a href="{{ path('app_page_edit', {'id': page.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">Aucun résultat trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_page_new') }}">Créer une nouvelle page</a>
+{% endblock %}

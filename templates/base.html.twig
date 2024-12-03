@@ -15,17 +15,29 @@
         {% endblock %}
     </head>
     <body>
-    <header>
-    {% block menu %}
-    {% if app.user %}
-    {% include 'partials/menu.html.twig' %}
-    {% endif %}
-    {% endblock %}
-        <h1>{% block pagetitle %}H1 à définir{% endblock %}</h1>
-    </header>
-        {% block body %}{% endblock %}
-        {% block footer %}
-        {% include 'partials/footer.html.twig' %}
-        {% endblock %}
+        <div class="container">
+            <div class="row">
+                <header>
+                    {% block menu %}
+                    {% if app.user %}
+                    {% include 'partials/menu.html.twig' %}
+                    {% endif %}
+                    {% endblock %}
+                    <h1>{% block pagetitle %}H1 à définir{% endblock %}</h1>
+                </header>
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% block body %}{% endblock %}
+                {% block footer %}
+                    {% include 'partials/footer.html.twig' %}
+                {% endblock %}
+            </div>
+        </div>
     </body>
 </html>

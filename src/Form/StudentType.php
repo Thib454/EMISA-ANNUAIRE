@@ -26,6 +26,10 @@ class StudentType extends AbstractType
                 'label' => 'Nom',
               ])
 
+              ->add('email',TextType::class, [
+                'label' => 'Email',
+              ])
+
             ->add('birthDay', null, [
                 'widget' => 'single_text',
                 'label' => 'Date de naissance',
